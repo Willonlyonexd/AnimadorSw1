@@ -1,16 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const audioRoutes = require('./routes/audioRoutes'); // Rutas de audio
+const audioRoutes = require('./routes/audioRoutes'); // Asegúrate de que esta ruta esté correcta
 
 const app = express();
-const port = 3000;
 
-// Middleware para parsear el cuerpo de la solicitud como JSON
+// Middleware para parsear JSON
 app.use(bodyParser.json());
 
-// Registrar las rutas de audio
-app.use('/api/audio', audioRoutes);
+// Rutas de la API
+app.use('/api/audio', audioRoutes);  // Definiendo la ruta /api/audio para audioRoutes
 
-app.listen(port, () => {
-  console.log(`Servidor escuchando en puerto ${port}`);
+app.get('/api/health', (req, res) => {
+  res.status(200).send('API is working!');
+});
+// Puerto dinámico asignado por Vercel
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Servidor corriendo');
 });
