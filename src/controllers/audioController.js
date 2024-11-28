@@ -15,6 +15,7 @@ function crearDirectorioTemp() {
   const tempDir = path.join(__dirname, '../../temp');
   if (!fs.existsSync(tempDir)) {
     fs.mkdirSync(tempDir, { recursive: true });
+    console.log('Directorio "temp" creado');
   }
 }
 
@@ -62,6 +63,21 @@ function subirACloudinary(rutaArchivo) {
   });
 }
 
+// Función para eliminar el archivo temporal
+function eliminarArchivoTemporal(archivo) {
+  return new Promise((resolve, reject) => {
+    fs.unlink(archivo, (err) => {
+      if (err) {
+        console.error('Error al eliminar el archivo temporal:', err);
+        reject(err);
+      } else {
+        console.log('Archivo temporal eliminado:', archivo);
+        resolve();
+      }
+    });
+  });
+}
+
 // Controlador para generar el audio y subirlo a Cloudinary
 async function generarAudioSala(req, res) {
   const { texto } = req.body;  // Recibe el texto desde la solicitud (por ejemplo, desde Flutter)
@@ -84,8 +100,8 @@ async function generarAudioSala(req, res) {
     // 4. Enviar la URL del archivo generado
     res.status(200).json({ url: urlAudio });
 
-    // Eliminar archivo temporal
-    fs.unlinkSync(archivoGenerado);
+    // 5. Eliminar archivo temporal después de subirlo
+    await eliminarArchivoTemporal(archivoGenerado);
 
   } catch (error) {
     console.error(error);
