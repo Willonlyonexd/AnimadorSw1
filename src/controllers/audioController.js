@@ -10,6 +10,14 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// Función para crear el directorio 'temp' si no existe
+function crearDirectorioTemp() {
+  const tempDir = path.join(__dirname, '../../temp');
+  if (!fs.existsSync(tempDir)) {
+    fs.mkdirSync(tempDir, { recursive: true });
+  }
+}
+
 // Función para generar el archivo de audio
 function generarAudio(texto, archivoDestino) {
   return new Promise((resolve, reject) => {
@@ -64,13 +72,16 @@ async function generarAudioSala(req, res) {
   }
 
   try {
-    // 1. Generar el archivo de audio
+    // 1. Crear el directorio 'temp' si no existe
+    crearDirectorioTemp();
+
+    // 2. Generar el archivo de audio
     const archivoGenerado = await generarAudio(texto, archivoDestino);
 
-    // 2. Subir el archivo a Cloudinary
+    // 3. Subir el archivo a Cloudinary
     const urlAudio = await subirACloudinary(archivoGenerado);
 
-    // 3. Enviar la URL del archivo generado
+    // 4. Enviar la URL del archivo generado
     res.status(200).json({ url: urlAudio });
 
     // Eliminar archivo temporal
