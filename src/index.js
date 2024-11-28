@@ -1,8 +1,6 @@
-require('dotenv').config();  // Esto carga las variables de entorno desde el archivo .env
-
 const express = require('express');
 const bodyParser = require('body-parser');
-const audioRoutes = require('./routes/audioRoutes');  // Importamos las rutas de audio
+const audioRoutes = require('./routes/audioRoutes'); // Rutas de audio
 
 const app = express();
 const port = 3000;
