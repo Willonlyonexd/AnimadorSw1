@@ -1,19 +1,18 @@
+require('dotenv').config();  // Esto carga las variables de entorno desde el archivo .env
+
 const express = require('express');
 const bodyParser = require('body-parser');
-const audioRoutes = require('./routes/audioRoutes'); // Asegúrate de que esta ruta esté correcta
+const audioRoutes = require('./routes/audioRoutes');  // Importamos las rutas de audio
 
 const app = express();
+const port = 3000;
 
-// Middleware para parsear JSON
+// Middleware para parsear el cuerpo de la solicitud como JSON
 app.use(bodyParser.json());
 
-// Rutas de la API
-app.use('/api/audio', audioRoutes);  // Definiendo la ruta /api/audio para audioRoutes
+// Registrar las rutas de audio
+app.use('/api/audio', audioRoutes);
 
-app.get('/api/health', (req, res) => {
-  res.status(200).send('API is working!');
-});
-// Puerto dinámico asignado por Vercel
-app.listen(process.env.PORT || 3000, () => {
-  console.log('Servidor corriendo');
+app.listen(port, () => {
+  console.log(`Servidor escuchando en puerto ${port}`);
 });

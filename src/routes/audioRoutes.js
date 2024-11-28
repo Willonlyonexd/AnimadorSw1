@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { generarAudioSala } = require('../controllers/audioController'); // Asegúrate de que la ruta sea correcta
+const { generarAudioSala } = require('../controllers/audioController');
 
 // Ruta para generar y subir el audio
-router.post('/generarAudio', generarAudioSala);  // Aquí se maneja la ruta POST
+router.post('/generarAudio', generarAudioSala);
 
 module.exports = router;
